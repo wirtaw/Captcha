@@ -119,7 +119,7 @@ class Captcha{
 	    $this->number=$number;
 	    $this->size=$size;
 	    $this->style=$style;
-       $this->styleclass=$styleclass;   
+	    $this->styleclass=$styleclass;   
 	    switch($this->type){
 		  case 1:
 		  		$width=intval($width);
