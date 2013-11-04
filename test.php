@@ -2,8 +2,6 @@
 define('ROOT_DIR', '');
 include('Captcha.class.php');
 session_start();
-//require_once(ROOT_DIR . 'Captcha.class.php');
-
 if(isset($_POST['suma'])){
 	$suma=intval($_POST['suma']);
 	if($suma==($_SESSION['n1']->tekst+$_SESSION['n2']->tekst))

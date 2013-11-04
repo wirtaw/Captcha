@@ -1,7 +1,7 @@
 <?php
 class Captcha{
-		var $angle;
-		var $angles;
+      var $angle;
+      var $angles;
       var $color;
       var $font;
       var $height;
@@ -12,6 +12,9 @@ class Captcha{
       var $tekst;
       var $type;
       var $width;
+      function random_int_float($min,$max) {
+	    return round(($min+lcg_value()*(abs($max-$min))));
+      }
       function my_random($min,$max){
 		$a=$min;
 		$b=$max;
@@ -49,7 +52,7 @@ class Captcha{
 	    }else{
 	    	$b=$this->color[2];
 	    }
-	    $bg=ImageColorAllocate($im,$this->my_random(0,$r), $this->my_random($g,255), $this->my_random(0,$b));
+	    $bg=ImageColorAllocate($im,$this->random_int_float(0,$r), $this->random_int_float($g,255), $this->random_int_float(0,$b));
 	    $color        =   imageColorAllocate($im, $this->color[0], $this->color[1], $this->color[2]);
 	    $colorRed    =    imageColorAllocate($im, 0, 0, 255);
 	    $colorBlue    =   imageColorAllocate($im, 255, 0, 0);
@@ -67,7 +70,7 @@ class Captcha{
 	    				$a=15;
 	    				$b=45;
 	    			}
-		  			imagettftext($im, $this->size,$d*$this->my_random($a,$b), 5, 25, $color,$this->font,$this->tekst);
+		  			imagettftext($im, $this->size,$d*$this->random_int_float($a,$b), 5, 25, $color,$this->font,$this->tekst);
 	    		}else{
 		  			imagestring($im, 10, 5, 5,  $this->tekst, $color);
 	    		}
@@ -77,18 +80,15 @@ class Captcha{
 	    		
 	    		ImageRectangle($im,0,0,$this->width-1,$this->height-1,$color);
 	    		
-   	 		$colorline=ImageColorAllocate($im,rand(0,255), rand(0,255), rand(0,255));
+   	 		$colorline=ImageColorAllocate($im,$this->random_int_float(0,255), $this->random_int_float(0,255), $this->random_int_float(0,255));
    	 		imagestring($im, $this->size, 5, 5,  $this->tekst, $colorline);
    	 		Imagecolortransparent($im,$colorline);
-   	 		//imagestring($im, 10, 5, 5,  $this->tekst, $color);
-   	 		$colorline=ImageColorAllocate($im,rand(0,255), rand(0,255), rand(0,255));
+   	 		$colorline=ImageColorAllocate($im,$this->random_int_float(0,255), $this->random_int_float(0,255), $this->random_int_float(0,255));
 	    		imageline($im, 0, $this->height/2, $this->width, $this->height/2, $colorline); 
-	    		$colorline=ImageColorAllocate($im,rand(0,255), rand(0,255), rand(0,255));
+	    		$colorline=ImageColorAllocate($im,$this->random_int_float(0,255), $this->random_int_float(0,255), $this->random_int_float(0,255));
    	 		imageline($im, $this->width/2, 0, $this->width/2, $this->height, $colorline);
 	    	break;
 	    }
-	    //ImageRectangle($im,0,0,$this->width-1,$this->height-1,$color);
-	    
 	    header ("Content-type: image/png");
 	    ImagePng ($im);
 	    ImageDestroy ($im);	
@@ -133,14 +133,14 @@ class Captcha{
 	    		}
 		  		if(isset($edges)&&is_array($edges)&&count($edges)==2){	  
 					if($edges[0]>$edges[1]){
-			      	$this->tekst=$this->my_random($edges[1],$edges[0]);
+			      	$this->tekst=$this->random_int_float($edges[1],$edges[0]);
 					}elseif($edges[0]<$edges[1]){
-			    	  $this->tekst=$this->my_random($edges[0],$edges[1]);
+			    	  $this->tekst=$this->random_int_float($edges[0],$edges[1]);
 					}else{
-			      	$this->tekst=$this->my_random(1,100);
+			      	$this->tekst=$this->random_int_float(1,100);
 					}
 		  		}else{
-					$this->tekst=$this->my_random(1,100);
+					$this->tekst=$this->random_int_float(1,100);
 		  		}
 		  		$this->tekst=intval($this->tekst);
 		  break;
@@ -153,8 +153,6 @@ class Captcha{
 					$this->width=$width;
 		  			$this->height=$height;
 				}else{
-					//$fw=imagefontwidth($this->font);
-					//$fh=imagefontheight($this->font);
 					$this->width= strlen($this->tekst)*10;
 		  			$this->height=$height;
 				} 
